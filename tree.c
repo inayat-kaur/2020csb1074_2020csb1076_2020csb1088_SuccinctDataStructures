@@ -45,12 +45,18 @@ int main(){
     balanced_paranthesis(&root);
     display_bp();
 
-    printf("parent of %d : %d\n",bp[4].posn,parent(bp[4].posn));
-    printf("first child of %d : %d\n",bp[4].posn,firstchild(bp[4].posn));
-    printf("last child of %d : %d\n",bp[4].posn,lastchild(bp[4].posn));
-    printf("sibling of %d : %d\n",bp[4].posn,sibling(bp[4].posn));
-    printf("depth %d : %d\n",bp[4].posn,depth(bp[4].posn));
-    printf("subtree size of %d : %d\n",bp[4].posn,subtreesize(bp[4].posn));
+    printf("parent of %d : %d\n",bp[4].posn,parent(4));
+    printf("first child of %d : ", bp[4].posn);
+    if (firstchild(4) != -1) {
+        printf("%d\n",firstchild(4));
+    }
+    printf("last child of %d : ", bp[4].posn);
+    if (lastchild(4) != -1) {
+        printf("%d\n", lastchild(4));
+    }
+    printf("sibling of %d : %d\n",bp[4].posn,sibling(4));
+    printf("depth %d : %d\n",bp[4].posn,depth(4));
+    printf("subtree size of %d : %d\n",bp[4].posn,subtreesize(4));
 
     return 0;
 }
@@ -163,25 +169,49 @@ int select(char type, int i){
 }
 
 int parent(int v){
-    return enclose(v);
+    return bp[enclose(v)].posn;
 }
 
+
 int firstchild(int v){
-    return v+1;
+    if (bp[v].pr == '(') {
+        if (find_close(v) == v+1) {
+
+            printf("NULL\n");
+            return -1;
+        }
+        else {
+            return bp[v + 1].posn;
+        }
+    }
+    if (bp[v].pr == ')') {
+        firstchild(find_open(v));
+    }
 }
 
 int sibling(int v){
-    return find_close(v) + 1;
+    return bp[find_close(v) + 1].posn;
 }
 
 int lastchild(int v){
-    return find_open(find_close(v)-1);
+    if (bp[v].pr == ')') {
+        if (find_open(v) == v - 1) {
+            printf("NULL\n");
+            return -1;
+        }
+        else {
+            return bp[find_open(v - 1)].posn;
+        }
+    }
+    else {
+        lastchild(find_close(v));
+    }
 }
 
 int depth(int v){
-    return (rank('(',v) - rank(')',v));
+    return bp[rank('(', v) - rank(')', v)].posn;
 }
 
 int subtreesize(int v){
-    return (find_close(v) - v + 1)/2 ;
+    return bp[(find_close(v) - v + 1) / 2].posn;
 }
