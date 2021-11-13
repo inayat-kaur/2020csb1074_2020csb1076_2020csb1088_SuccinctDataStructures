@@ -45,19 +45,31 @@ int main(){
     balanced_paranthesis(&root);
     display_bp();
 
-    printf("parent of %d : %d\n",bp[4].posn,parent(4));
-    printf("first child of %d : ", bp[4].posn);
-    if (firstchild(4) != -1) {
-        printf("%d\n",firstchild(4));
-    }
-    printf("last child of %d : ", bp[4].posn);
-    if (lastchild(4) != -1) {
-        printf("%d\n", lastchild(4));
-    }
-    printf("sibling of %d : %d\n",bp[4].posn,sibling(4));
-    printf("depth %d : %d\n",bp[4].posn,depth(4));
-    printf("subtree size of %d : %d\n",bp[4].posn,subtreesize(4));
+    int res;
+    for( int i = 0;i < 2*number_of_nodes; i++){
+        if(bp[i].pr == '('){
+            printf("FOR %d\n",bp[i].posn);
+            printf("Parent of %d : ",bp[i].posn);
+            if((res = parent(i))!=-1){ 
+                printf("%d\n",res);
+            }
+            printf("first child of %d : ", bp[i].posn);
+            if ((res = firstchild(i)) != -1) {
+                printf("%d\n",res);
+            }
+            printf("last child of %d : ", bp[i].posn);
+            if ((res = lastchild(i)) != -1) {
+                printf("%d\n", res);
+            }
+            printf("sibling of %d : ",bp[i].posn);
+            if((res = sibling(i))!=-1){
+                printf("%d\n",res);
+            }
+            printf("depth %d : %d\n",bp[i].posn,depth(i));
 
+            printf("subtree size of %d : %d\n",bp[i].posn,subtreesize(i));
+        }
+    }
     return 0;
 }
 
@@ -149,8 +161,8 @@ int enclose(int i){
 }
 
 int rank(char type,int i){
-    int count =0;
-    for(int j = i; j >-1 ; j--){
+    int count =1;
+    for(int j = i-1; j >-1 ; j--){
         if(bp[j].pr == type){
             count++;
         }
@@ -169,6 +181,11 @@ int select(char type, int i){
 }
 
 int parent(int v){
+    if(v==0){
+        printf("ROOT ITSELF\n");
+        // parent of root ?? 
+        return -1;
+    }
     return bp[enclose(v)].posn;
 }
 
@@ -190,7 +207,27 @@ int firstchild(int v){
 }
 
 int sibling(int v){
-    return bp[find_close(v) + 1].posn;
+    if(v==0){
+        printf("NULL\n");
+        return -1;
+    }
+    if(bp[v].pr == '('){
+        if(bp[v-1].pr == '('){
+            if(bp[find_close(v)+1].pr == ')'){
+                printf("NULL\n");
+                return -1;
+            }
+            else{
+                return bp[find_close(v)+1].posn;
+            }
+        }
+        else{
+            return bp[v-1].posn;
+        }
+    }
+    else{
+        return sibling(find_open(v));
+    }
 }
 
 int lastchild(int v){
@@ -209,9 +246,14 @@ int lastchild(int v){
 }
 
 int depth(int v){
-    return bp[rank('(', v) - rank(')', v)].posn;
+    return rank('(', v) - rank(')', v);
 }
 
 int subtreesize(int v){
-    return bp[(find_close(v) - v + 1) / 2].posn;
+    if(bp[v].pr == '('){
+        return (find_close(v) - v + 1) / 2;
+    }
+    else{
+        return ( v - find_open(v) + 1)/2 ;
+    }
 }
