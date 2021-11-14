@@ -11,11 +11,10 @@ struct Node{
     char pr;
 }typedef node;
 
-extern int count;
-extern int number_of_nodes;
 extern node* bp;
 
 void balanced_paranthesis(tree ** k);
+void Balanced_Paranthesis(tree ** k,int n);
 void display_bp(void);
 int find_close(int i);
 int find_open(int i);
