@@ -1,16 +1,20 @@
 # include <stdio.h>
 # include <stdlib.h>
+# include "definitions.h"
 # include "balanced_paranthesis.h"
+# include "depth_first_unary_degree_sequence.h"
 
 void addNode(tree ** k);
 void display(tree** r);
-static int number_of_nodes=0;
+extern int number_of_nodes;
 
 int main(){
+    number_of_nodes=0;
     tree * root=NULL;
     addNode(&root);
     display(&root);
-    Balanced_Paranthesis(&root,number_of_nodes);
+    Balanced_Paranthesis(&root, number_of_nodes);
+    DFUDS(&root, number_of_nodes);
     return 0;
 }
 

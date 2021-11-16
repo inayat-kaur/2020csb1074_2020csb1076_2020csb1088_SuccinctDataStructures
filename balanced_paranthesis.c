@@ -1,8 +1,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "balanced_paranthesis.h"
+# include "definitions.h"
 
-int count=0;
+static int count=0;
 static int number_of_nodes=0;
 node* bp=NULL;
 
