@@ -1,5 +1,7 @@
 # pragma once
 
+extern int number_of_nodes;
+
 struct Tree{
     int data;
     int number_of_children;

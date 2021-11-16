@@ -6,7 +6,8 @@
 
 void addNode(tree ** k);
 void display(tree** r);
-extern int number_of_nodes;
+
+int number_of_nodes;
 
 int main(){
     number_of_nodes=0;

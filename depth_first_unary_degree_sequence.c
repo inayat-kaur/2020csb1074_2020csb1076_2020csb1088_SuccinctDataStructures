@@ -4,7 +4,9 @@
 # include "definitions.h"
 
 static int count=0;
-static int number_of_nodes=0;
+
+int number_of_nodes=0;
+
 node* dfuds=NULL;
 
 void DFUDS(tree ** k,int n){
@@ -77,8 +79,7 @@ int find_close(int i)
         if(dfuds[j].posn == temp)
         {
             return j;
-        }
-        
+        }      
     }
 }
 

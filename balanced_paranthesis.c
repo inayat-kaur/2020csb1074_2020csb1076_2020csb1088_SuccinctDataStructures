@@ -4,7 +4,9 @@
 # include "definitions.h"
 
 static int count=0;
-static int number_of_nodes=0;
+
+int number_of_nodes;
+
 node* bp=NULL;
 
 void Balanced_Paranthesis(tree ** k,int n){
@@ -18,24 +20,24 @@ void Balanced_Paranthesis(tree ** k,int n){
         if(bp[i].pr == '('){
             printf("FOR %d\n",bp[i].posn);
             printf("Parent of %d : ",bp[i].posn);
-            if((res = parent(i))!=-1){ 
+            if((res = parent_bp(i))!=-1){ 
                 printf("%d\n",res);
             }
             printf("first child of %d : ", bp[i].posn);
-            if ((res = firstchild(i)) != -1) {
+            if ((res = firstchild_bp(i)) != -1) {
                 printf("%d\n",res);
             }
             printf("last child of %d : ", bp[i].posn);
-            if ((res = lastchild(i)) != -1) {
+            if ((res = lastchild_bp(i)) != -1) {
                 printf("%d\n", res);
             }
             printf("sibling of %d : ",bp[i].posn);
-            if((res = sibling(i))!=-1){
+            if((res = sibling_bp(i))!=-1){
                 printf("%d\n",res);
             }
-            printf("depth %d : %d\n",bp[i].posn,depth(i));
+            printf("depth %d : %d\n",bp[i].posn,depth_bp(i));
 
-            printf("subtree size of %d : %d\n",bp[i].posn,subtreesize(i));
+            printf("subtree size of %d : %d\n",bp[i].posn,subtreesize_bp(i));
         }
     }
 }
@@ -48,11 +50,6 @@ void display_bp(void){
     for(int i=0;i<2*number_of_nodes;i++){
         printf("%d ",bp[i].posn);
     }
-    while (1)
-    {
-        printf("b");
-    }
-    
     printf("\n");
 }
 
@@ -68,7 +65,7 @@ void balanced_paranthesis(tree ** r){
     count++;
 }
 
-int find_close(int i)
+int find_close_bp(int i)
 {
     int temp = bp[i].posn;
     for(int j=i+1; j<2*number_of_nodes; j++)
@@ -81,7 +78,7 @@ int find_close(int i)
     }
 }
 
-int find_open(int i){
+int find_open_bp(int i){
     int temp = bp[i].posn;
     for(int j=i-1; j>-1; j--)
     {
@@ -92,7 +89,7 @@ int find_open(int i){
     }
 }
 
-int enclose(int i){
+int enclose_bp(int i){
     int count = 0;
     for(int j = i - 1; j > -1 ; j--){
         if(bp[j].pr == '('){
@@ -107,7 +104,7 @@ int enclose(int i){
     }
 }
 
-int rank(char type,int i){
+int rank_bp(char type,int i){
     int count =1;
     for(int j = i-1; j >-1 ; j--){
         if(bp[j].pr == type){
@@ -117,7 +114,7 @@ int rank(char type,int i){
     return count;
 }
 
-int select(char type, int i){
+int select_bp(char type, int i){
     int j;
     for(j = 0; j < 2*number_of_nodes && i>0 ; j++){
         if(bp[j].pr == type){
@@ -127,19 +124,19 @@ int select(char type, int i){
     return j;
 }
 
-int parent(int v){
+int parent_bp(int v){
     if(v==0){
         printf("ROOT ITSELF\n");
         // parent of root ?? 
         return -1;
     }
-    return bp[enclose(v)].posn;
+    return bp[enclose_bp(v)].posn;
 }
 
 
-int firstchild(int v){
+int firstchild_bp(int v){
     if (bp[v].pr == '(') {
-        if (find_close(v) == v+1) {
+        if (find_close_bp(v) == v+1) {
 
             printf("NULL\n");
             return -1;
@@ -150,14 +147,14 @@ int firstchild(int v){
     }
 }
 
-int sibling(int v){
+int sibling_bp(int v){
     if(v==0){
         printf("NULL\n");
         return -1;
     }
     if(bp[v].pr == '('){
         if(bp[v-1].pr == '('){
-            int temp = find_close(v) +1;
+            int temp = find_close_bp(v) +1;
             if(bp[temp].pr == ')'){
                 printf("NULL\n");
                 return -1;
@@ -172,9 +169,9 @@ int sibling(int v){
     }
 }
 
-int lastchild(int v){
+int lastchild_bp(int v){
     if (bp[v].pr == ')') {
-        if (find_open(v) == v - 1) {
+        if (find_open_bp(v) == v - 1) {
             printf("NULL\n");
             return -1;
         }
@@ -183,19 +180,19 @@ int lastchild(int v){
         }
     }
     else {
-        lastchild(find_close(v));
+        lastchild_bp(find_close_bp(v));
     }
 }
 
-int depth(int v){
-    return rank('(', v) - rank(')', v);
+int depth_bp(int v){
+    return rank_bp('(', v) - rank_bp(')', v);
 }
 
-int subtreesize(int v){
+int subtreesize_bp(int v){
     if(bp[v].pr == '('){
-        return (find_close(v) - v + 1) / 2;
+        return (find_close_bp(v) - v + 1) / 2;
     }
     else{
-        return ( v - find_open(v) + 1)/2 ;
+        return ( v - find_open_bp(v) + 1)/2 ;
     }
 }
