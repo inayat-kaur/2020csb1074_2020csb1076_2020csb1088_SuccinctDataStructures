@@ -48,6 +48,11 @@ void display_bp(void){
     for(int i=0;i<2*number_of_nodes;i++){
         printf("%d ",bp[i].posn);
     }
+    while (1)
+    {
+        printf("b");
+    }
+    
     printf("\n");
 }
 
@@ -143,9 +148,6 @@ int firstchild(int v){
             return bp[v + 1].posn;
         }
     }
-    if (bp[v].pr == ')') {
-        firstchild(find_open(v));
-    }
 }
 
 int sibling(int v){
@@ -155,20 +157,18 @@ int sibling(int v){
     }
     if(bp[v].pr == '('){
         if(bp[v-1].pr == '('){
-            if(bp[find_close(v)+1].pr == ')'){
+            int temp = find_close(v) +1;
+            if(bp[temp].pr == ')'){
                 printf("NULL\n");
                 return -1;
             }
             else{
-                return bp[find_close(v)+1].posn;
+                return bp[temp].posn;
             }
         }
         else{
             return bp[v-1].posn;
         }
-    }
-    else{
-        return sibling(find_open(v));
     }
 }
 
@@ -179,7 +179,7 @@ int lastchild(int v){
             return -1;
         }
         else {
-            return bp[find_open(v - 1)].posn;
+            return bp[v - 1].posn;
         }
     }
     else {
