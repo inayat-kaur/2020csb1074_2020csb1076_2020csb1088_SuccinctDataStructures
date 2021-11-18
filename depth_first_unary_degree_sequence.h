@@ -4,17 +4,16 @@
 void depth_first(tree ** k);
 void DFUDS(tree ** k,int n);
 void display_dfuds(void);
-int find_close(int i);
-int find_open(int i);
-int enclose(int i);
 
+int find_close_dfuds(int i);
+int find_open_dfuds(int i);
+int enclose_dfuds(int i);
+int rank_dfuds(char* pattern,int size,int i);
+int select_dfuds(char type, int i);
 
-int rank(char type,int i);
-int select(char type, int i);
-/*int parent(int v);
-int firstchild(int v);
-int sibling(int v);
-int lastchild(int v);
-int depth(int v);
-int subtreesize(int v);
-int degree(int v);*/
+int parent_dfuds(int v);
+int child_dfuds(int v, int i);
+int subtreesize_dfuds(int v);
+int degree_dfuds(int v);
+int preorder_rank_dfuds(int v);
+int preorder_select_dfuds(int i);
