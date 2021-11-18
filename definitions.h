@@ -9,6 +9,11 @@ struct Tree{
 }typedef tree;
 
 struct Node{
-    int posn;
+    int val;
     char pr;
 }typedef node;
+
+struct ldsnode{
+    int posn;
+    char bn;
+}typedef ldsnode;

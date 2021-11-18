@@ -18,26 +18,28 @@ void Balanced_Paranthesis(tree ** k,int n){
     int res;
     for( int i = 0;i < 2*number_of_nodes; i++){
         if(bp[i].pr == '('){
-            printf("FOR %d\n",bp[i].posn);
-            printf("Parent of %d : ",bp[i].posn);
+            printf("FOR %d\n",bp[i].val);
+            printf("Parent of %d : ",bp[i].val);
             if((res = parent_bp(i))!=-1){ 
                 printf("%d\n",res);
             }
-            printf("first child of %d : ", bp[i].posn);
+            printf("first child of %d : ", bp[i].val);
             if ((res = firstchild_bp(i)) != -1) {
                 printf("%d\n",res);
             }
-            printf("last child of %d : ", bp[i].posn);
+            printf("last child of %d : ", bp[i].val);
             if ((res = lastchild_bp(i)) != -1) {
                 printf("%d\n", res);
             }
-            printf("sibling of %d : ",bp[i].posn);
+            printf("sibling of %d : ",bp[i].val);
             if((res = sibling_bp(i))!=-1){
                 printf("%d\n",res);
             }
-            printf("depth %d : %d\n",bp[i].posn,depth_bp(i));
+            printf("depth %d : %d\n",bp[i].val,depth_bp(i));
 
-            printf("subtree size of %d : %d\n",bp[i].posn,subtreesize_bp(i));
+            printf("subtree size of %d : %d\n",bp[i].val,subtreesize_bp(i));
+
+            printf("Degree of %d is %d\n",bp[i].val,degree_bp(i));
         }
     }
 }
@@ -48,29 +50,29 @@ void display_bp(void){
     }
     printf("\n");
     for(int i=0;i<2*number_of_nodes;i++){
-        printf("%d ",bp[i].posn);
+        printf("%d ",bp[i].val);
     }
     printf("\n");
 }
 
 void balanced_paranthesis(tree ** r){
-    bp[count].posn=(*r)->data;
+    bp[count].val=(*r)->data;
     bp[count].pr='(';
     count++;
     for(int i=0;i<(*r)->number_of_children;i++){
         balanced_paranthesis(&((*r)->children[i]));
     }
-    bp[count].posn=(*r)->data;
+    bp[count].val=(*r)->data;
     bp[count].pr=')';
     count++;
 }
 
 int find_close_bp(int i)
 {
-    int temp = bp[i].posn;
+    int temp = bp[i].val;
     for(int j=i+1; j<2*number_of_nodes; j++)
     {
-        if(bp[j].posn == temp)
+        if(bp[j].val == temp)
         {
             return j;
         }
@@ -79,10 +81,10 @@ int find_close_bp(int i)
 }
 
 int find_open_bp(int i){
-    int temp = bp[i].posn;
+    int temp = bp[i].val;
     for(int j=i-1; j>-1; j--)
     {
-        if(bp[j].posn == temp)
+        if(bp[j].val == temp)
         {
             return j;
         }
@@ -130,7 +132,7 @@ int parent_bp(int v){
         // parent of root ?? 
         return -1;
     }
-    return bp[enclose_bp(v)].posn;
+    return bp[enclose_bp(v)].val;
 }
 
 
@@ -142,7 +144,7 @@ int firstchild_bp(int v){
             return -1;
         }
         else {
-            return bp[v + 1].posn;
+            return bp[v + 1].val;
         }
     }
 }
@@ -160,11 +162,11 @@ int sibling_bp(int v){
                 return -1;
             }
             else{
-                return bp[temp].posn;
+                return bp[temp].val;
             }
         }
         else{
-            return bp[v-1].posn;
+            return bp[v-1].val;
         }
     }
 }
@@ -176,7 +178,7 @@ int lastchild_bp(int v){
             return -1;
         }
         else {
-            return bp[v - 1].posn;
+            return bp[v - 1].val;
         }
     }
     else {
@@ -195,4 +197,24 @@ int subtreesize_bp(int v){
     else{
         return ( v - find_open_bp(v) + 1)/2 ;
     }
+}
+
+int degree_bp(int v){
+    int deg=0;
+    int count =0;
+    for(int i = v+1 ; i < number_of_nodes; i++){
+        if(bp[i].pr=='('){
+            count++;
+        }
+        else{
+            count--;
+        }
+        if(count==1){
+            deg++;
+        }
+        if(count<0){
+            return deg;
+        }
+    }
+    return deg;
 }
