@@ -216,5 +216,6 @@ int degree_bp(int v){
             return deg;
         }
     }
+    
     return deg;
 }
