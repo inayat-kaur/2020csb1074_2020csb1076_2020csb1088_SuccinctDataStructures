@@ -1,6 +1,5 @@
 #pragma once
 #include "definitions.h"
-#include "LOUDS.c"
 
 extern ldsnode* lds;
 

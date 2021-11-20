@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include <stdlib.h>
-
+#include "definitions.h"
+#include "LOUDS.h"
 
 struct qnode{
     tree* ptr; struct qnode *next;
@@ -48,24 +49,24 @@ void LOUDS_print(tree* r,int n)
         {
             printf("Value of current node: %d\n",lds[i].posn);
             if(ldsparent(i)==-1)
-            printf("NULL parent! ,");
+            printf("Root itself\n");
             else
-            printf("parent = %d ,",lds[ldsparent(i)].posn);
+            printf("parent = %d\n",lds[ldsparent(i)].posn);
 
             if(ldsfirstchild(i)==-1)
-            printf("NULL first child! ,");
+            printf("NULL first child!\n");
             else 
-            printf("first child = %d ,",lds[ldsfirstchild(i)].posn);
+            printf("first child = %d\n",lds[ldsfirstchild(i)].posn);
 
             if(ldslastchild(i)==-1)
-            printf("NULL last child! ,");
-            else printf("last child = %d ,",lds[ldslastchild(i)].posn);
+            printf("NULL last child!\n");
+            else printf("last child = %d\n",lds[ldslastchild(i)].posn);
 
             if(ldsrightsibling(i)==-1)
-            printf("NULL right sibling ,");
-            else printf("right sibling = %d ,",lds[ldsrightsibling(i)].posn);
+            printf("NULL right sibling\n");
+            else printf("right sibling = %d\n",lds[ldsrightsibling(i)].posn);
 
-            printf("%d\n",ldsdegree(i));
+            printf("degree is %d\n",ldsdegree(i));
         }
     }
 
