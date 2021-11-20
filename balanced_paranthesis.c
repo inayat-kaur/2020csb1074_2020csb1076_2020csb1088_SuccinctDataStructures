@@ -202,20 +202,16 @@ int subtreesize_bp(int v){
 int degree_bp(int v){
     int deg=0;
     int count =0;
-    for(int i = v+1 ; i < number_of_nodes; i++){
+    for(int i = v+1 ; i < find_close_bp(v); i++){
         if(bp[i].pr=='('){
             count++;
+            if(count==1){
+            deg++;
+            }
         }
         else{
             count--;
         }
-        if(count==1){
-            deg++;
-        }
-        if(count<0){
-            return deg;
-        }
     }
-    
     return deg;
 }
