@@ -112,8 +112,8 @@ int rank_dfuds(char* pattern,int size,int i){
     int p=0;
     int a, b, k;
     int l=size+1+i;
-    int Z_array[l];
-    char new_string[l+1];
+    int * Z_array=(int *)malloc(l*sizeof(int));
+    char * new_string=(char*)malloc((l+1)*sizeof(char));
     while(p<size){
         new_string[p]=pattern[p];
         p++;
@@ -151,6 +151,8 @@ int rank_dfuds(char* pattern,int size,int i){
     for(p=1;p<l;p++){
         if(Z_array[p]==size)c++;
     }
+    free(Z_array);
+    free(new_string);
     return c;
 }
 
@@ -159,8 +161,8 @@ int select_dfuds(char* pattern,int size,int i){
     int p=0;
     int a, b, k;
     int l=size+1+(2*number_of_nodes);
-    int Z_array[l];
-    char new_string[l+1];
+    int * Z_array=(int *)malloc(l*sizeof(int));
+    char * new_string=(char*)malloc((l+1)*sizeof(char));
     while(p<size){
         new_string[p]=pattern[p];
         p++;
@@ -197,8 +199,14 @@ int select_dfuds(char* pattern,int size,int i){
     }
     for(p=1;p<l;p++){
         if(Z_array[p]==size)c++;
-        if(c==i) return p-size;
+        if(c==i){
+            free(Z_array);
+            free(new_string);
+            return p-size;
+        } 
     }
+    free(Z_array);
+    free(new_string);
     return -1;
 }
 
@@ -215,7 +223,7 @@ int subtreesize_dfuds(int v){
 }
 
 int degree_dfuds(int v){
-    return select_dfuds(")",1,rank_dfuds(")",1,v)+1)-v;
+    return select_dfuds(")",1,v) - select_dfuds("(",1,v) - 1;
 }
 
 int preorder_rank_dfuds(int v){
