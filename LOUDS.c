@@ -2,18 +2,6 @@
 #include <stdlib.h>
 
 
-struct Tree{
-    int data;
-    int number_of_children;
-    struct Tree** children; 
-}typedef tree;
-
-struct ldsnode{
-    int posn;
-    char bn;
-};
-
-
 struct qnode{
     tree* ptr; struct qnode *next;
 }typedef qnode;
@@ -44,9 +32,44 @@ int ldsrightsibling(int x);
 void LOUDS(tree* r); // LOUDS traversal
 void ldstraversal(tree* r);  // auxiliary function for LOUDS traversal
 void display_lds(void); // function to display LOUDS
-
+void LOUDS_print(tree* r,int n);
 
 //------------------------------------------------//
+
+void LOUDS_print(tree* r,int n)
+{
+    number_of_nodes=n;
+    lds = (struct ldsnode*)malloc(( 2*number_of_nodes +1 )*sizeof(struct ldsnode));
+    LOUDS(r);
+    display_lds();
+    for(int i=0;i<2*n +1;i++)
+    {
+        if(lds[i].bn=='1')
+        {
+            printf("Value of current node: %d\n",lds[i].posn);
+            if(ldsparent(i)==-1)
+            printf("NULL parent! ,");
+            else
+            printf("parent = %d ,",lds[ldsparent(i)].posn);
+
+            if(ldsfirstchild(i)==-1)
+            printf("NULL first child! ,");
+            else 
+            printf("first child = %d ,",lds[ldsfirstchild(i)].posn);
+
+            if(ldslastchild(i)==-1)
+            printf("NULL last child! ,");
+            else printf("last child = %d ,",lds[ldslastchild(i)].posn);
+
+            if(ldsrightsibling(i)==-1)
+            printf("NULL right sibling ,");
+            else printf("right sibling = %d ,",lds[ldsrightsibling(i)].posn);
+
+            printf("%d\n",ldsdegree(i));
+        }
+    }
+
+}
 
 void create_q(tree *p)
 {
@@ -125,10 +148,6 @@ void ldstraversal(tree* r) // auxiliary function of LOUDS TRAVERSAL
        ldscount++;
     }
     lds[ldscount++].bn = '0';
-    // for(i=0; i<x;i++)
-    // {
-    //     enq(*(r->children +i));
-    // }
     if(is_qempty())
     return;
     else 
@@ -138,14 +157,12 @@ void ldstraversal(tree* r) // auxiliary function of LOUDS TRAVERSAL
 // function to display the representation and values stored 
 void display_lds(void){
     for(int i=0;i<2*number_of_nodes+1;i++){
-        printf("%c ",lds[i].bn);
-    }
-    printf("\n");
-    for(int i=0;i<2*number_of_nodes;i++){
-       if(lds[i].bn=='1')
-        printf("%d ",lds[i].posn);
-       else
-        printf(" ");
+        
+        if(lds[i].bn=='1')
+        {
+             printf("%c",lds[i].bn);printf("(%d) ",lds[i].posn);
+        }
+        else printf("%c ",lds[i].bn);
     }
     printf("\n");
 }
@@ -177,7 +194,7 @@ int ldsfirstchild(int x)
     x = ldsselect('0',ldsrank('1',x));
     if(lds[x].bn=='0')
     return -1;
-    else return lds[x].posn;
+    else return x;
 }
 int ldslastchild(int x)
 {
@@ -185,11 +202,13 @@ int ldslastchild(int x)
     x = ldsselect('0',ldsrank('1',x)+1)-2;
     if(lds[x].bn=='0')
     return -1;
-    else return lds[x].posn;
+    else return x;
 }
 
 int ldsdegree(int x)
 {
+    if(ldslastchild(x)==-1 && ldsfirstchild(x) ==-1)
+    return 0;
     return ldslastchild(x)-ldsfirstchild(x)+1;
 }
 int ldsrightsibling(int x)
@@ -197,23 +216,17 @@ int ldsrightsibling(int x)
 
     if(lds[x+1].bn=='0')
     return -1;
-    else return lds[x+1].posn;
+    else return x+1;
 }
 int ldsparent(int x)
 {
     x=x+1;
    x = ldsselect('1',ldsrank('0',x))-1;
-   if(lds[x].bn=='0')
+   if(x<0)
+   return -1;
+   else if(lds[x].bn=='0')
     return -1;
-    else return lds[x].posn;
+    else return x;
 }
 
 
-
-int main()
-{
-    scanf("%d",&number_of_nodes);
-    lds = (struct ldsnode*)malloc(( 2*number_of_nodes +1 )*sizeof(struct ldsnode));
-    LOUDS(root);  // root of the tree is passed as an argument
-
-}
