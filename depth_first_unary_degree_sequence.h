@@ -17,4 +17,4 @@ int first_child_dfuds(int v);
 int degree_dfuds(int v);
 int leaf_rank_dfuds(int v);
 int leaf_select_dfuds(int i);
-int leftmost_leaf_dfuds(int v);
+

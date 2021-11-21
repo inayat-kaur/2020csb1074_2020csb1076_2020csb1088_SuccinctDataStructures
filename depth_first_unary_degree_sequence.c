@@ -32,11 +32,10 @@ void DFUDS(tree ** k,int n){
             else printf("First child of %d : NULL\n",dfuds[i].val);
             if(first_child_dfuds(i)!=-1) printf("Last child of %d : %d\n",dfuds[i].val,dfuds[last_child_dfuds(i)-1].val);
             else printf("Last child of %d : NULL\n",dfuds[i].val);
-            printf("degree of %d : %d\n",dfuds[i].val,degree_dfuds(dfuds[i].val));
+            printf("Degree of %d : %d\n",dfuds[i].val,degree_dfuds(dfuds[i].val));
             printf("Leaf-rank of %d : %d\n",dfuds[i].val,leaf_rank_dfuds(i));
-            printf("Leaf-select of %d : %d\n",dfuds[i].val,leaf_select_dfuds(i));
-            printf("Leftmost leaf of %d : %d\n",dfuds[i].val,dfuds[leftmost_leaf_dfuds(i)-1].val);
         }
+        //printf("Leaf no. %d : %d\n",x,leaf_select_dfuds(x));
     }
 }
 
@@ -237,17 +236,12 @@ int degree_dfuds(int v){
 int leaf_rank_dfuds(int v){
     int g=dfuds[v].val;
     int h=select_dfuds(")",1,g);
-    return rank_dfuds("))",2,v);
+    int r=rank_dfuds("))",2,h);
+    if(r==0) return 0;
+    return r;
 }
 
 int leaf_select_dfuds(int i){
-     return select_dfuds("))",2,i);
-}
-
-
-int leftmost_leaf_dfuds(int i){
-    int v=dfuds[i].val;
-    int h=select_dfuds(")",1,v);
-    return leaf_select_dfuds(leaf_rank_dfuds(h-1)+1);
+    return 1+select_dfuds("))",2,i);
 }
 
