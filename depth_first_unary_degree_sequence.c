@@ -54,7 +54,8 @@ void depth_first(tree ** r){
     }
 }
 
-void display_dfuds(void){
+void display_dfuds(void){ 
+    printf("DEPTH FIRST UNARY DEGREE SEQUENCE (DFUDS) REPRESENTATION\n");
      for(int i=0;i<2*number_of_nodes;i++){
         printf("%c ",dfuds[i].pr);
     }

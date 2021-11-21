@@ -1,11 +1,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "definitions.h"
-# include "balanced_paranthesis.h"
+# include "balanced_parentheses.h"
 # include "depth_first_unary_degree_sequence.h"
+# include "LOUDS.h"
 
 void addNode(tree ** k);
-void display(tree** r);
 
 int number_of_nodes;
 
@@ -13,9 +13,9 @@ int main(){
     number_of_nodes=0;
     tree * root=NULL;
     addNode(&root);
-    display(&root);
-    Balanced_Paranthesis(&root, number_of_nodes);
+    Balanced_Parentheses(&root, number_of_nodes);
     DFUDS(&root, number_of_nodes);
+    LOUDS_print(root,number_of_nodes);
     return 0;
 }
 
@@ -34,13 +34,5 @@ void addNode(tree ** k){
         printf("\nAdd child %d of node %d:\n",i+1,(*k)->data);
         addNode(&((*k)->children[i]));
     }  
-}
-
-void display(tree** r){
-    printf("%d ",(*r)->data); 
-    for(int i=0;i<(*r)->number_of_children;i++){
-        display(&((*r)->children[i]));
-    }
-    printf("\n");  
 }
 
