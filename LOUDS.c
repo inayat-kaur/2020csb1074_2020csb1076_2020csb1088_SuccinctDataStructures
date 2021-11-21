@@ -14,7 +14,8 @@ tree* root;
 int number_of_nodes;
 int ldscount;
 struct ldsnode* lds;
-
+char one = '1';
+char zero = '0';
 
 
 // declaration of all the function used
@@ -23,8 +24,8 @@ void create_q( tree* p); // function to create queue
 tree* deq(); // deque function for queue
 int is_qempty(); // function to check whether queue is empty or not
 void display_q(); // function to display queue
-int ldsrank(char typ, int i);  // LOUDDS rank
-int ldsselect(char type, int i);  // LOUDDS select
+int ldsrank(char* pattern, int i);  // LOUDDS rank
+int ldsselect(char* pattern, int i);  // LOUDDS select
 int ldsparent(int x);   
 int ldsfirstchild(int x);
 int ldslastchild(int x); 
@@ -168,39 +169,145 @@ void display_lds(void){
     printf("\n");
 }
 
-
-int ldsrank(char typ, int i)
-{
-    int count =0;
-    for(int j=0;j<i;j++)
-    {
-        if(lds[j].bn == typ)
-        count++;
+int ldsrank(char* pattern,int i){
+    int size = 1;
+    int c =0;
+    int p=0;
+    int a, b, k;
+    int l=size+1+i;
+    int * Z_array=(int *)malloc(l*sizeof(int));
+    char * new_string=(char*)malloc((l+1)*sizeof(char));
+    while(p<size){
+        new_string[p]=pattern[p];
+        p++;
     }
-    return count;
-}
-
-int ldsselect(char type, int i){
-    int j;
-    for(j = 0; j < 2*number_of_nodes+1 && i>0 ; j++){
-        if(lds[j].bn == type){
-            i--;
+    new_string[p]='$';
+    p++;
+    while(p<l){
+        new_string[p]=lds[p-(size+1)].bn;
+        p++;
+    }
+    new_string[p]='\0';
+    a=0;
+    b=0;
+    for (int j=1;j<l;j++){
+        if(j>b){
+            a=j;
+            b=j;
+            while ((new_string[b-a]==new_string[b])&&(b<l))b++;
+            Z_array[j]=b-a;
+            b--;
+        }
+        else{
+            k = j-a;
+            if(Z_array[k]<b-i+1){
+                Z_array[j] = Z_array[k];
+            }
+            else{
+                a = j;
+                while ((new_string[b-a] == new_string[b])&&(b<l)) b++;
+                Z_array[j] = b-a;
+                b--;
+            }
         }
     }
-    return j;
+    for(p=1;p<l;p++){
+        if(Z_array[p]==size)c++;
+    }
+    free(Z_array);
+    free(new_string);
+    return c;
 }
+
+// int ldsrank(char typ, int i)
+// {
+//     int count =0;
+//     for(int j=0;j<i;j++)
+//     {
+//         if(lds[j].bn == typ)
+//         count++;
+//     }
+//     return count;
+// }
+
+// int ldsselect(char type, int i){
+//     int j;
+//     for(j = 0; j < 2*number_of_nodes+1 && i>0 ; j++){
+//         if(lds[j].bn == type){
+//             i--;
+//         }
+//     }
+//     return j;
+// }
+
+int ldsselect(char* pattern,int i){
+    int size = 1;
+    int c=0;
+    int p=0;
+    int a, b, k;
+    int l=size+1+(2*number_of_nodes + 1);
+    int * Z_array=(int *)malloc(l*sizeof(int));
+    char * new_string=(char*)malloc((l+1)*sizeof(char));
+    while(p<size){
+        new_string[p]=pattern[p];
+        p++;
+    }
+    new_string[p]='$';
+    p++;
+    while(p<l){
+        new_string[p]=lds[p-(size+1)].bn;
+        p++;
+    }
+    new_string[p]='\0';
+    a=0;
+    b=0;
+    for (int j=1;j<l;j++){
+        if(j>b){
+            a=j;
+            b=j;
+            while ((new_string[b-a]==new_string[b])&&(b<l))b++;
+            Z_array[j]=b-a;
+            b--;
+        }
+        else{
+            k = j-a;
+            if(Z_array[k]<b-i+1){
+                Z_array[j] = Z_array[k];
+            }
+            else{
+                a = j;
+                while ((new_string[b-a] == new_string[b])&&(b<l)) b++;
+                Z_array[j] = b-a;
+                b--;
+            }
+        }
+    }
+    for(p=1;p<l;p++){
+        if(Z_array[p]==size)c++;
+        if(c==i){
+            free(Z_array);
+            free(new_string);
+            return p-size;
+        } 
+    }
+    free(Z_array);
+    free(new_string);
+    return -1;
+}
+
 int ldsfirstchild(int x)
 {
     x=x+1;
-    x = ldsselect('0',ldsrank('1',x));
+    x = ldsselect(&zero,ldsrank(&one,x));
     if(lds[x].bn=='0')
     return -1;
     else return x;
 }
+
 int ldslastchild(int x)
 {
     x=x+1;
-    x = ldsselect('0',ldsrank('1',x)+1)-2;
+    x = ldsselect(&zero,ldsrank(&one,x)+1)-2;
     if(lds[x].bn=='0')
     return -1;
     else return x;
@@ -212,6 +319,7 @@ int ldsdegree(int x)
     return 0;
     return ldslastchild(x)-ldsfirstchild(x)+1;
 }
+
 int ldsrightsibling(int x)
 {
 
@@ -219,10 +327,11 @@ int ldsrightsibling(int x)
     return -1;
     else return x+1;
 }
+
 int ldsparent(int x)
 {
     x=x+1;
-   x = ldsselect('1',ldsrank('0',x))-1;
+   x = ldsselect(&one,ldsrank(&zero,x))-1;
    if(x<0)
    return -1;
    else if(lds[x].bn=='0')

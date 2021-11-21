@@ -12,8 +12,8 @@ tree* deq(); // deque function for queue
 int is_qempty(); // function to check whether queue is empty or not
 void display_q(); // function to display queue
 void ldstraversal(tree* r); // LOUDDS traversal
-int ldsrank(char typ, int i);  // LOUDDS rank
-int ldsselect(char type, int i);  // LOUDDS select
+int ldsrank(char* pattern, int i);  // LOUDDS rank
+int ldsselect(char* pattern, int i);  // LOUDDS select
 int ldsparent(int x); // parent of the node
 int ldsfirstchild(int x); // first child of the node
 int ldslastchild(int x);//last child of the node
