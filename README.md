@@ -19,7 +19,8 @@
       <p align="center">
         <img src="./tree_example.png" />
       </p>
-      Enter data of node : ***1***<br />
+      
+      Enter data of node : ***1*** <br />
       Enter number of childrens : ***3***
       
       Add child 1 of node 1 : ***3***<br />
