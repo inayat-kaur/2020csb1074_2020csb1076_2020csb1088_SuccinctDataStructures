@@ -19,6 +19,7 @@ int main(){
     return 0;
 }
 
+// for inserting the tree from user
 void addNode(tree ** k){
     *k=(tree *)malloc(sizeof(tree));
     int d,t;

@@ -45,6 +45,7 @@ void Balanced_Parentheses(tree ** k,int n){
     }
 }
 
+// for displaying the encoded balanced parentheses representation of tree
 void display_bp(void){
     for(int i=0;i<2*number_of_nodes;i++){
         printf("%c ",bp[i].pr);
@@ -56,6 +57,7 @@ void display_bp(void){
     printf("\n");
 }
 
+// for encoding given tree as balanced parentheses
 void balanced_parentheses(tree ** r){
     bp[count].val=(*r)->data;
     bp[count].pr='(';
@@ -68,6 +70,8 @@ void balanced_parentheses(tree ** r){
     count++;
 }
 
+
+// finds the closing parentheses corresponding to the opening pareentheses at i
 int find_close_bp(int i)
 {
     int temp = bp[i].val;
@@ -81,6 +85,7 @@ int find_close_bp(int i)
     }
 }
 
+// finds the opening parentheses corresponding to the closing pareentheses at i
 int find_open_bp(int i){
     int temp = bp[i].val;
     for(int j=i-1; j>-1; j--)
@@ -92,6 +97,7 @@ int find_open_bp(int i){
     }
 }
 
+// finds the parentheses that just encloses 
 int enclose_bp(int i){
     int count = 0;
     for(int j = i - 1; j > -1 ; j--){
@@ -107,6 +113,7 @@ int enclose_bp(int i){
     }
 }
 
+// uses z-algorithm to find the rank of given parentheses
 int rank_bp(char* pattern,int i){
     int size=1;
     int c =0;
@@ -212,7 +219,7 @@ int select_bp(char* pattern,int i){
     return -1;
 }
 
-
+// finds the parent of given node
 int parent_bp(int v){
     if(v==0){
         printf("ROOT ITSELF\n");
@@ -221,7 +228,7 @@ int parent_bp(int v){
     return enclose_bp(v);
 }
 
-
+// for finding the first child
 int firstchild_bp(int v){
     if (bp[v].pr == '(') {
         if (find_close_bp(v) == v+1) {
@@ -234,6 +241,7 @@ int firstchild_bp(int v){
     }
 }
 
+// for finding the sibling of the given vertex whose parentheses is at v
 int sibling_bp(int v){
     if(v==0){
         printf("NULL\n");
@@ -275,6 +283,7 @@ int depth_bp(int v){
     return rank_bp("(", v) - rank_bp(")", v);
 }
 
+// return the number of nodes in the subtree rooted at the node corresopnding to vertex at v
 int subtreesize_bp(int v){
     if(bp[v].pr == '('){
         return (find_close_bp(v) - v + 1) / 2;
@@ -284,6 +293,7 @@ int subtreesize_bp(int v){
     }
 }
 
+// return the degree: number of children of given node
 int degree_bp(int v){
     int deg=0;
     int count =0;
