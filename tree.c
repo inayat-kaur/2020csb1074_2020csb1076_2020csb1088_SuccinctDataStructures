@@ -6,7 +6,6 @@
 # include "LOUDS.h"
 
 void addNode(tree ** k);
-void display(tree** r);
 
 int number_of_nodes;
 
@@ -14,7 +13,6 @@ int main(){
     number_of_nodes=0;
     tree * root=NULL;
     addNode(&root);
-    display(&root);
     Balanced_Parentheses(&root, number_of_nodes);
     DFUDS(&root, number_of_nodes);
     LOUDS_print(root,number_of_nodes);
@@ -36,13 +34,5 @@ void addNode(tree ** k){
         printf("\nAdd child %d of node %d:\n",i+1,(*k)->data);
         addNode(&((*k)->children[i]));
     }  
-}
-
-void display(tree** r){
-    printf("%d ",(*r)->data); 
-    for(int i=0;i<(*r)->number_of_children;i++){
-        display(&((*r)->children[i]));
-    }
-    printf("\n");  
 }
 

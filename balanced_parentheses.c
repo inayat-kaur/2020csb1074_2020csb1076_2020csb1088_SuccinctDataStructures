@@ -22,19 +22,19 @@ void Balanced_Parentheses(tree ** k,int n){
             printf("FOR %d\n",bp[i].val);
             printf("Parent of %d : ",bp[i].val);
             if((res = parent_bp(i))!=-1){ 
-                printf("%d\n",res);
+                printf("%d\n",bp[res].val);
             }
             printf("first child of %d : ", bp[i].val);
             if ((res = firstchild_bp(i)) != -1) {
-                printf("%d\n",res);
+                printf("%d\n",bp[res].val);
             }
             printf("last child of %d : ", bp[i].val);
             if ((res = lastchild_bp(i)) != -1) {
-                printf("%d\n", res);
+                printf("%d\n", bp[res].val);
             }
             printf("sibling of %d : ",bp[i].val);
             if((res = sibling_bp(i))!=-1){
-                printf("%d\n",res);
+                printf("%d\n",bp[res].val);
             }
             printf("depth %d : %d\n",bp[i].val,depth_bp(i));
 
@@ -107,16 +107,6 @@ int enclose_bp(int i){
     }
 }
 
-/*int rank_bp(char type,int i){
-    int count =1;
-    for(int j = i-1; j >-1 ; j--){
-        if(bp[j].pr == type){
-            count++;
-        }
-    }
-    return count;
-}*/
-
 int rank_bp(char* pattern,int i){
     int size=1;
     int c =0;
@@ -166,17 +156,6 @@ int rank_bp(char* pattern,int i){
     free(new_string);
     return c;
 }
-
-/*
-int select_bp(char type, int i){
-    int j;
-    for(j = 0; j < 2*number_of_nodes && i>0 ; j++){
-        if(bp[j].pr == type){
-            i--;
-        }
-    }
-    return j;
-}*/
 
 int select_bp(char* pattern,int i){
     int size = 1;
@@ -237,22 +216,20 @@ int select_bp(char* pattern,int i){
 int parent_bp(int v){
     if(v==0){
         printf("ROOT ITSELF\n");
-        // parent of root ?? 
         return -1;
     }
-    return bp[enclose_bp(v)].val;
+    return enclose_bp(v);
 }
 
 
 int firstchild_bp(int v){
     if (bp[v].pr == '(') {
         if (find_close_bp(v) == v+1) {
-
             printf("NULL\n");
             return -1;
         }
         else {
-            return bp[v + 1].val;
+            return (v + 1);
         }
     }
 }
@@ -270,11 +247,11 @@ int sibling_bp(int v){
                 return -1;
             }
             else{
-                return bp[temp].val;
+                return temp;
             }
         }
         else{
-            return bp[v-1].val;
+            return (v-1);
         }
     }
 }
@@ -286,7 +263,7 @@ int lastchild_bp(int v){
             return -1;
         }
         else {
-            return bp[v - 1].val;
+            return (v - 1);
         }
     }
     else {

@@ -158,8 +158,8 @@ void ldstraversal(tree* r) // auxiliary function of LOUDS TRAVERSAL
 
 // function to display the representation and values stored 
 void display_lds(void){
+    printf("LEVEL ORDERED UNARY DEGREE SEQUENCE (LOUDS) REPRESENTATION\n");
     for(int i=0;i<2*number_of_nodes+1;i++){
-        
         if(lds[i].bn=='1')
         {
              printf("%c",lds[i].bn);printf("(%d) ",lds[i].posn);
@@ -218,27 +218,6 @@ int ldsrank(char* pattern,int i){
     free(new_string);
     return c;
 }
-
-// int ldsrank(char typ, int i)
-// {
-//     int count =0;
-//     for(int j=0;j<i;j++)
-//     {
-//         if(lds[j].bn == typ)
-//         count++;
-//     }
-//     return count;
-// }
-
-// int ldsselect(char type, int i){
-//     int j;
-//     for(j = 0; j < 2*number_of_nodes+1 && i>0 ; j++){
-//         if(lds[j].bn == type){
-//             i--;
-//         }
-//     }
-//     return j;
-// }
 
 int ldsselect(char* pattern,int i){
     int size = 1;
